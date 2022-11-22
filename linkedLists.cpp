@@ -2,36 +2,41 @@
 #include <iostream>
 #include <stdio.h>
 
-struct Node {
+struct Node{
     int data;
     struct Node* next;
 };
 
-struct Node* head;
-
-void insert(int x){
-    struct Node* temp = (Node*)malloc(sizeof(struct Node));
-    temp -> data = x;
-    temp -> next = head;
-    head = temp;
-}
-void print(Node* head){
-    std::cout<<"list: \n";
-    while(head != NULL){
-        std::cout<<head->data<<std::endl;
-        head = head -> next;
+struct Node* head = NULL; // start empty list
+void _insert(int data, int n){
+    Node* temp1 = new Node();
+    temp1 -> data = data;
+    temp1 -> next = NULL;
+    if(n == 1){
+        temp1 -> next = head;
+        head = temp1;
+        return;
     }
+    Node* temp2 = head;
+    for(int i = 0; i < n -2; i++){
+        temp2 = temp2 -> next;
+    }
+    temp1 -> next = temp2 -> next;
+    temp2 -> next = temp1;
+}
+void _print(){
+    Node* temp = head;
+    while(temp != NULL){
+        printf("%d ",temp-> data);
+        temp = temp -> next;
+    }
+    printf("\n");
 }
 
-int main() {
-    head = NULL;
-    std::cout<<"How many numbers?\n";
-    int n, x;
-    scanf("%d", &n);
-    for(int i = 0; i < n; i++){
-        std::cout<<"enter number\n";
-        scanf("%d", &x);
-        insert(x);
-        print(head);
-    }
+int main(){
+    _insert(2,1); // 2
+    _insert(3,2); // 2, 3
+    _insert(4,1); // 4, 2, 3
+    _insert(5,2); // 4, 5, 2, 3
+    _print();
 }
